@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            RoA-Bot
 // @namespace       http://tampermonkey.net/
-// @version         0.1
+// @version         0.1.1
 // @description     try to take over the world!
 // @author          mdrozdovz
 // @match           https://*.avabur.com/game*
@@ -20,6 +20,9 @@
 
     const timers = {};
     const settings = {
+        channel: {
+            switchToMain: true,
+        },
         refresh: {
             enabled: true,
             actionsInterval: 50,
@@ -66,10 +69,12 @@
         const profession = $('#professionQuest');
 
         // TODO re-do this shit
-        if (!/display: none/g.test(battle.attributes.style.value)) return 'battle';
-        if (!/display: none/g.test(tradeskill.attributes.style.value)) return 'tradeskill';
-        if (!/display: none/g.test(profession.attributes.style.value)) return 'profession';
+        if (!battle.attributes.style || !/display: none/g.test(battle.attributes.style.value)) return {elem: battle, type: 'kill'}; // because fuck you
+        if (!tradeskill.attributes.style || !/display: none/g.test(tradeskill.attributes.style.value)) return {elem: tradeskill, type: 'tradeskill'};
+        if (!profession.attributes.style || !/display: none/g.test(profession.attributes.style.value)) return {elem: profession, type: 'profession'};
     };
+
+    const switchToMainChannel = () => setTimeout(() => document.querySelector('a.channelTab[data-channelid="2"]').click(), 5000);
 
     const setupAutoRefresh = () => {
         const replenishSelector = () => $('#replenishStamina');
@@ -82,7 +87,7 @@
     };
 
     const setupQuestCompletion = () => {
-        const infoLinkSelector = () => $('div#questInfo > div > div.center > a.questCenter');
+        const infoLinkSelector = elem => elem.querySelector('div.center > a.questCenter');
         const completeButtonSelector = type => $(`input.completeQuest[data-questtype=${type}]`);
         const jumpFwdButtonSelector = () => $('#roaJumpNextMob');
         const beginQuestButtonsSelector = type => $(`input.questRequest[data-questtype=${type}]`);
@@ -90,33 +95,51 @@
 
         log('Setting up auto quest completion');
         return setInterval(() => {
-            log('Checking quest...');
-            if (infoLinkSelector()) {
+            //log('Checking quest...');
+            const { elem, type } = getCurrentQuestType();
+            if (infoLinkSelector(elem)) {
                 log('Found completed quest');
 
-                const questType = getCurrentQuestType();
-                log(`Current quest: ${questType}`);
+                //const questType = getCurrentQuestType();
+                log(`Current quest: ${type}`);
 
-                safeClick(completeButtonSelector(questType));
-                if (questType === 'battle') {
+                safeClick(completeButtonSelector(type));
+                if (type === 'battle') {
                     for (let i = 0; i < settings.questCompletion.jumpForwardTimes; i++) {
                         safeClick(jumpFwdButtonSelector());
                     }
                 }
-                safeClick(beginQuestButtonsSelector(questType));
-                safeClick(closeModalSelector()); // TODO make sure it close at first try
-                log('Refreshed quest');
+                safeClick(beginQuestButtonsSelector(type));
+                setTimeout(() => safeClick(closeModalSelector()), 500); // TODO make sure it close at first try
+                log(`Refreshed quest`);
             } else {
-                log('No completed quest found');
-                safeClick(closeModalSelector());
+                //log('No completed quest found');
+                //safeClick(closeModalSelector());
             }
         }, settings.questCompletion.checkIntervalSeconds * 1000);
     };
 
+    const attachKeyBinds = () => {
+        const KEYS = {
+            ENTER: 13,
+            ESC: 27,
+        };
+
+        window.addEventListener('keydown', e => {
+            const key = e.keyCode;
+            switch (key) {
+                case KEYS.ENTER: safeClick($('#confirmButtons > a.button.green')); break;
+                case KEYS.ESC: safeClick($('#confirmButtons > a.button.red')); break;
+            }
+        });
+    };
+
     const start = () => {
         log('Starting RoA Bot');
+        if (settings.channel.switchToMain) timers.switchToMain = switchToMainChannel();
         if (settings.refresh.enabled) timers.autoRefresh = setupAutoRefresh();
         if (settings.questCompletion.enabled) timers.questCompletion = setupQuestCompletion();
+        attachKeyBinds();
 
         printTimers();
     };
