@@ -8,7 +8,7 @@
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
-// @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
+// @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
 // @grant           none
 // ==/UserScript==
 
