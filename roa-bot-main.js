@@ -16,10 +16,9 @@
     'use strict';
 
     const $ = document.querySelector.bind(document);
-    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const delay = ms => new Promise(r => setTimeout(r, ms));
 
-    const timers = {};
-    const settings = {
+    const defaultSettings = {
         channel: {
             switchToMain: true,
         },
@@ -29,39 +28,24 @@
         },
         questCompletion: {
             enabled: true,
-            jumpForwardTimes: 0,
+            jumpForwardTimes: 1,
             checkIntervalSeconds: 20,
+        },
+        housing: {
+            enabled: true,
+            checkIntervalSeconds: 600,
         }
     };
-
-    window.roaBot = {
-        timers,
-        settings,
-        restart() {
-            this.stop();
-            start();
-        },
-        stop() {
-            log('Stopping RoA Bot');
-            for (const [key, val] of Object.entries(timers)) {
-                clearInterval(val);
-                delete timers[key];
-            }
-        },
-    }
-
-    const printTimers = () => {
-        for (const [key, val] of Object.entries(timers)) {
-            log(`timers.${key}: ${val}`);
-        }
-    }
 
     const log = msg => {
         const now = new Date();
         console.log(`[${now.toDateString()} ${now.toTimeString().split(' ')[0]}][RoA Bot]: ${msg}`);
     }
 
-    const safeClick = button => button && button.click && button.click();
+    const safeClick = async button => {
+        button && button.click && button.click();
+        await delay(2000);
+    }
 
     const getCurrentQuestType = () => {
         const battle = $('#battleQuest');
@@ -69,80 +53,158 @@
         const profession = $('#professionQuest');
 
         // TODO re-do this shit
-        if (!battle.attributes.style || !/display: none/g.test(battle.attributes.style.value)) return {elem: battle, type: 'kill'}; // because fuck you
-        if (!tradeskill.attributes.style || !/display: none/g.test(tradeskill.attributes.style.value)) return {elem: tradeskill, type: 'tradeskill'};
-        if (!profession.attributes.style || !/display: none/g.test(profession.attributes.style.value)) return {elem: profession, type: 'profession'};
+        if (!battle.attributes.style || !/display: none/g.test(battle.attributes.style.value)) return {
+            elem: battle,
+            type: 'kill'
+        }; // because fuck you
+        if (!tradeskill.attributes.style || !/display: none/g.test(tradeskill.attributes.style.value)) return {
+            elem: tradeskill,
+            type: 'tradeskill'
+        };
+        if (!profession.attributes.style || !/display: none/g.test(profession.attributes.style.value)) return {
+            elem: profession,
+            type: 'profession'
+        };
     };
 
-    const switchToMainChannel = () => setTimeout(() => document.querySelector('a.channelTab[data-channelid="2"]').click(), 5000);
+    class RoaBot {
+        settings;
+        timers;
 
-    const setupAutoRefresh = () => {
-        const replenishSelector = () => $('#replenishStamina');
+        constructor(settings) {
+            this.settings = settings;
+            this.timers = {};
+        }
 
-        log('Setting up auto refresh interval');
-        return setInterval(async () => {
-            const item = replenishSelector();
-            if (item) item.click();
-        }, settings.refresh.actionsInterval * 3 * 1000);
-    };
+        switchToMainChannel() {
+            return setTimeout(() => document.querySelector('a.channelTab[data-channelid="2"]').click(), 10000);
+        }
 
-    const setupQuestCompletion = () => {
-        const infoLinkSelector = elem => elem.querySelector('div.center > a.questCenter');
-        const completeButtonSelector = type => $(`input.completeQuest[data-questtype=${type}]`);
-        const jumpFwdButtonSelector = () => $('#roaJumpNextMob');
-        const beginQuestButtonsSelector = type => $(`input.questRequest[data-questtype=${type}]`);
-        const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
+        setupAutoRefresh() {
+            const replenishSelector = () => $('#replenishStamina');
 
-        log('Setting up auto quest completion');
-        return setInterval(() => {
-            //log('Checking quest...');
-            const { elem, type } = getCurrentQuestType();
-            if (infoLinkSelector(elem)) {
+            log('Setting up auto refresh interval');
+            return setInterval(
+                () => safeClick(replenishSelector()),
+                defaultSettings.refresh.actionsInterval * 3 * 1000
+            );
+        }
+
+        setupQuestCompletion() {
+            const infoLinkSelector = elem => elem.querySelector('div.center > a.questCenter');
+            const completeButtonSelector = type => $(`input.completeQuest[data-questtype=${type}]`);
+            const jumpFwdButtonSelector = () => $('#roaJumpNextMob');
+            const beginQuestButtonsSelector = type => $(`input.questRequest[data-questtype=${type}]`);
+            const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
+
+            log('Setting up auto quest completion');
+            return setInterval(async () => {
+                //log('Checking quest...');
+                const {elem, type} = getCurrentQuestType();
+                if (!infoLinkSelector(elem)) return;
+
                 log('Found completed quest');
-
-                //const questType = getCurrentQuestType();
                 log(`Current quest: ${type}`);
 
-                safeClick(completeButtonSelector(type));
-                if (type === 'battle') {
-                    for (let i = 0; i < settings.questCompletion.jumpForwardTimes; i++) {
-                        safeClick(jumpFwdButtonSelector());
+                await safeClick(completeButtonSelector(type));
+                if (type === 'kill') {
+                    for (let i = 0; i < defaultSettings.questCompletion.jumpForwardTimes; i++) {
+                        log('jumping mobs');
+                        await safeClick(jumpFwdButtonSelector());
                     }
                 }
-                safeClick(beginQuestButtonsSelector(type));
-                setTimeout(() => safeClick(closeModalSelector()), 500); // TODO make sure it close at first try
+                await safeClick(beginQuestButtonsSelector(type));
+                await safeClick(closeModalSelector());
                 log(`Refreshed quest`);
-            } else {
-                //log('No completed quest found');
-                //safeClick(closeModalSelector());
+            }, defaultSettings.questCompletion.checkIntervalSeconds * 1000);
+        }
+
+        setupHousing() {
+            const houseReadyString = 'Your workers are available for a new task.';
+            const houseSelector = () => $('#housing > a');
+            const newRoomSelector = () => $('input#houseBuildRoom');
+            const shortestItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoom');
+            const buildItemSelector = () => $('#houseBuildRoomItem');
+            const notificationSelector = () => $('div#house_notification');
+            const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
+
+            return setInterval(async () => {
+                await safeClick(houseSelector());
+                if (notificationSelector().textContent !== houseReadyString) {
+                    await safeClick(closeModalSelector());
+                    return;
+                }
+
+                log('Housing ready');
+                if (newRoomSelector()) {
+                    await safeClick(newRoomSelector());
+                } else { // build shortest
+                    await safeClick(shortestItemSelector());
+                    await safeClick(buildItemSelector());
+                }
+
+                log('Building new item');
+                safeClick(closeModalSelector());
+            }, this.settings.housing.checkIntervalSeconds * 1000);
+        }
+
+        attachKeyBinds() {
+            const KEYS = {
+                ENTER: 13,
+                ESC: 27,
+            };
+
+            window.addEventListener('keydown', e => {
+                const key = e.code;
+                switch (key) {
+                    case KEYS.ENTER:
+                        safeClick($('#confirmButtons > a.button.green'));
+                        break;
+                    case KEYS.ESC:
+                        safeClick($('#confirmButtons > a.button.red'));
+                        break;
+                }
+            });
+        }
+
+        resizeWindows() {
+            $('#areaContent').style.height = '440px';
+            $('#chatMessageListWrapper').style.height = '510px';
+        }
+
+        printTimers() {
+            for (const [key, val] of Object.entries(this.timers)) {
+                log(`timers.${key}: ${val}`);
             }
-        }, settings.questCompletion.checkIntervalSeconds * 1000);
-    };
+        }
 
-    const attachKeyBinds = () => {
-        const KEYS = {
-            ENTER: 13,
-            ESC: 27,
-        };
+        start() {
+            log('Starting RoA Bot');
+            if (this.settings.channel.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
+            if (this.settings.refresh.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
+            if (this.settings.questCompletion.enabled) this.timers.questCompletion = this.setupQuestCompletion();
+            if (this.settings.housing.enabled) this.timers.housing = this.setupHousing();
+            this.attachKeyBinds();
+            this.resizeWindows();
 
-        window.addEventListener('keydown', e => {
-            const key = e.keyCode;
-            switch (key) {
-                case KEYS.ENTER: safeClick($('#confirmButtons > a.button.green')); break;
-                case KEYS.ESC: safeClick($('#confirmButtons > a.button.red')); break;
+            this.printTimers();
+        }
+
+        stop() {
+            log('Stopping RoA Bot');
+            for (const [key, val] of Object.entries(this.timers)) {
+                clearInterval(val);
+                delete this.timers[key];
             }
-        });
-    };
+        }
 
-    const start = () => {
-        log('Starting RoA Bot');
-        if (settings.channel.switchToMain) timers.switchToMain = switchToMainChannel();
-        if (settings.refresh.enabled) timers.autoRefresh = setupAutoRefresh();
-        if (settings.questCompletion.enabled) timers.questCompletion = setupQuestCompletion();
-        attachKeyBinds();
+        restart() {
+            this.stop();
+            this.start();
+        }
+    }
 
-        printTimers();
-    };
-
-    start();
+    window.roaBot = new RoaBot(defaultSettings);
+    window.addEventListener('beforeunload', () => window.roaBot.stop());
+    window.roaBot.start();
 })();
