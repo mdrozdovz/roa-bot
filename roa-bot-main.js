@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            RoA-Bot
 // @namespace       http://tampermonkey.net/
-// @version         0.1.2
+// @version         0.1.3
 // @description     try to take over the world!
 // @author          mdrozdovz
 // @match           https://*.avabur.com/game*
@@ -67,6 +67,16 @@
         };
     };
 
+    const isVisible = element => element && element.offsetParent !== null;
+
+    const firstActionable = (...elements) => {
+        for (const el of elements) {
+            if (isVisible(el)) return el;
+        }
+
+        return null;
+    };
+
     class RoaBot {
         settings;
         timers;
@@ -123,8 +133,11 @@
             const houseReadyString = 'Your workers are available for a new task.';
             const houseSelector = () => $('#housing > a');
             const newRoomSelector = () => $('input#houseBuildRoom');
-            const shortestItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoom');
+            const shortestNewItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoom');
+            const shortestExistingItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoomItem');
             const buildItemSelector = () => $('#houseBuildRoomItem');
+            const upgradeTierSelector = () => $('#houseRoomItemUpgradeTier');
+            const upgradeItemSelector = () => $('#houseRoomItemUpgradeLevel');
             const notificationSelector = () => $('div#house_notification');
             const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
 
@@ -136,11 +149,13 @@
                 }
 
                 log('Housing ready');
-                if (newRoomSelector()) {
+                if (isVisible(newRoomSelector())) {
+                    log('Building new room');
                     await safeClick(newRoomSelector());
                 } else { // build shortest
-                    await safeClick(shortestItemSelector());
-                    await safeClick(buildItemSelector());
+                    log('Building shortest item');
+                    await safeClick(shortestNewItemSelector() || shortestExistingItemSelector());
+                    await safeClick(firstActionable(buildItemSelector(), upgradeTierSelector(), upgradeItemSelector()));
                 }
 
                 log('Building new item');
@@ -167,9 +182,10 @@
             });
         }
 
-        resizeWindows() {
+        miscellaneous() {
             $('#areaContent').style.height = '440px';
             $('#chatMessageListWrapper').style.height = '510px';
+            setTimeout(() => $('#close_general_notification').click(), 5000);
         }
 
         printTimers() {
@@ -179,13 +195,14 @@
         }
 
         start() {
-            log('Starting RoA Bot');
+            log('Starting RoA Bot with settings:');
+            console.log(this.settings);
             if (this.settings.channel.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
             if (this.settings.refresh.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
             if (this.settings.questCompletion.enabled) this.timers.questCompletion = this.setupQuestCompletion();
             if (this.settings.housing.enabled) this.timers.housing = this.setupHousing();
             this.attachKeyBinds();
-            this.resizeWindows();
+            this.miscellaneous();
 
             this.printTimers();
         }
