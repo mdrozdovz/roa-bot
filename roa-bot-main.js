@@ -7,15 +7,20 @@
 // @match           https://*.avabur.com/game*
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @resource        BuildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
-// @grant           none
+// @grant           GM_info
+// @grant           GM_getResourceText
 // ==/UserScript==
 
 (async () => {
     'use strict';
 
+    let buildings;
+
     const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
     const delay = ms => new Promise(r => setTimeout(r, ms));
 
     const defaultSettings = {
@@ -28,12 +33,16 @@
         },
         questCompletion: {
             enabled: true,
-            jumpForwardTimes: 1,
+            jumpForwardTimes: 0.2,
             checkIntervalSeconds: 20,
         },
         housing: {
             enabled: true,
             checkIntervalSeconds: 600,
+        },
+        toolUpgrade: {
+            enabled: true,
+            checkIntervalSeconds: 60,
         }
     };
 
@@ -68,22 +77,29 @@
     };
 
     const isVisible = element => element && element.offsetParent !== null;
+    const isEnabled = element => element && !element.attributes.disabled && !element.classList.contains('disabled');
 
     const firstActionable = (...elements) => {
         for (const el of elements) {
-            if (isVisible(el)) return el;
+            if (isVisible(el) && isEnabled(el)) return el;
         }
 
         return null;
     };
 
+    const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
+    const confirmButtonSelector = () => $('#confirmButtons > a.button.green');
+    const cancelButtonSelector = () => $('#confirmButtons > a.button.red');
+
     class RoaBot {
         settings;
         timers;
+        jumpCounter
 
         constructor(settings) {
             this.settings = settings;
             this.timers = {};
+            this.jumpCounter = 0;
         }
 
         switchToMainChannel() {
@@ -105,11 +121,10 @@
             const completeButtonSelector = type => $(`input.completeQuest[data-questtype=${type}]`);
             const jumpFwdButtonSelector = () => $('#roaJumpNextMob');
             const beginQuestButtonsSelector = type => $(`input.questRequest[data-questtype=${type}]`);
-            const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
+            const resetStatsSelector = () => $('#clearBattleStats');
 
             log('Setting up auto quest completion');
             return setInterval(async () => {
-                //log('Checking quest...');
                 const {elem, type} = getCurrentQuestType();
                 if (!infoLinkSelector(elem)) return;
 
@@ -118,15 +133,25 @@
 
                 await safeClick(completeButtonSelector(type));
                 if (type === 'kill') {
-                    for (let i = 0; i < defaultSettings.questCompletion.jumpForwardTimes; i++) {
-                        log('jumping mobs');
-                        await safeClick(jumpFwdButtonSelector());
+                    const jumpForwardTimes = this.settings.questCompletion.jumpForwardTimes;
+                    if (jumpForwardTimes < 1) {
+                        const revCounter = Math.round(1 / jumpForwardTimes);
+                        if (++this.jumpCounter % revCounter === 0) {
+                            log('jumping mobs');
+                            await safeClick(jumpFwdButtonSelector());
+                        }
+                    } else {
+                        for (let i = 0; i < jumpForwardTimes; i++) {
+                            log('jumping mobs');
+                            await safeClick(jumpFwdButtonSelector());
+                        }
                     }
                 }
                 await safeClick(beginQuestButtonsSelector(type));
                 await safeClick(closeModalSelector());
+                await safeClick(resetStatsSelector());
                 log(`Refreshed quest`);
-            }, defaultSettings.questCompletion.checkIntervalSeconds * 1000);
+            }, this.settings.questCompletion.checkIntervalSeconds * 1000);
         }
 
         setupHousing() {
@@ -139,7 +164,6 @@
             const upgradeTierSelector = () => $('#houseRoomItemUpgradeTier');
             const upgradeItemSelector = () => $('#houseRoomItemUpgradeLevel');
             const notificationSelector = () => $('div#house_notification');
-            const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
 
             return setInterval(async () => {
                 await safeClick(houseSelector());
@@ -163,20 +187,32 @@
             }, this.settings.housing.checkIntervalSeconds * 1000);
         }
 
-        attachKeyBinds() {
-            const KEYS = {
-                ENTER: 13,
-                ESC: 27,
-            };
+        setupToolUpgrade() {
+            const toolUpgradeSelector = () => $('#harvestLevelResult > a.openToolUpgrade');
+            const maxSelector = () => $$('a.toolUpgradeMax');
 
+            return setInterval(async () => {
+                if (isVisible(toolUpgradeSelector())) {
+                    await safeClick(toolUpgradeSelector());
+                    const type = firstActionable(...maxSelector());
+                    await safeClick(type);
+                    await safeClick(confirmButtonSelector());
+                    await safeClick(closeModalSelector());
+                    log(`Upgraded tool: ${type && type.attributes['data-type'].value}`);
+                }
+            }, this.settings.toolUpgrade.checkIntervalSeconds * 1000);
+        }
+
+        attachKeyBinds() {
             window.addEventListener('keydown', e => {
                 const key = e.code;
                 switch (key) {
-                    case KEYS.ENTER:
-                        safeClick($('#confirmButtons > a.button.green'));
+                    case 'Enter':
+                    case 'NumpadEnter':
+                        safeClick(confirmButtonSelector());
                         break;
-                    case KEYS.ESC:
-                        safeClick($('#confirmButtons > a.button.red'));
+                    case 'Escape':
+                        safeClick(cancelButtonSelector());
                         break;
                 }
             });
@@ -197,10 +233,13 @@
         start() {
             log('Starting RoA Bot with settings:');
             console.log(this.settings);
+            buildings = JSON.parse(GM_getResourceText('BuildingsData'));
+            log(`Loaded buildings data entries: ${Object.entries(buildings).length}`);
             if (this.settings.channel.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
             if (this.settings.refresh.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
             if (this.settings.questCompletion.enabled) this.timers.questCompletion = this.setupQuestCompletion();
             if (this.settings.housing.enabled) this.timers.housing = this.setupHousing();
+            if (this.settings.toolUpgrade.enabled) this.timers.toolUpgrade = this.setupToolUpgrade();
             this.attachKeyBinds();
             this.miscellaneous();
 

@@ -1,0 +1,1010 @@
+{
+    "TrashCompactor-Kitchen": {
+        "id": 91,
+        "roomId": 3,
+        "name": "Trash Compactor",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 61.875,
+        "buildTimeHuman": "1 hour 1 minute 52 seconds"
+    },
+    "HotTub-Balcony": {
+        "id": 45,
+        "roomId": 11,
+        "name": "Hot Tub",
+        "roomName": "Balcony",
+        "buildTimeMinutes": 65,
+        "buildTimeHuman": "1 hour 5 minutes"
+    },
+    "Automatequin-Bedroom": {
+        "id": 104,
+        "roomId": 1,
+        "name": "Automatequin",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 71.875,
+        "buildTimeHuman": "1 hour 11 minutes 52 seconds"
+    },
+    "ArcheryRange-Courtyard": {
+        "id": 3,
+        "roomId": 13,
+        "name": "Archery Range",
+        "roomName": "Courtyard",
+        "buildTimeMinutes": 72.5,
+        "buildTimeHuman": "1 hour 12 minutes 30 seconds"
+    },
+    "ClothingIron-LaundryRoom": {
+        "id": 46,
+        "roomId": 19,
+        "name": "Clothing Iron",
+        "roomName": "Laundry Room",
+        "buildTimeMinutes": 84.375,
+        "buildTimeHuman": "1 hour 24 minutes 22 seconds"
+    },
+    "Skylight-Sunroom": {
+        "id": 78,
+        "roomId": 10,
+        "name": "Skylight",
+        "roomName": "Sunroom",
+        "buildTimeMinutes": 90,
+        "buildTimeHuman": "1 hour 30 minutes"
+    },
+    "Skylight-Kitchen": {
+        "id": 78,
+        "roomId": 3,
+        "name": "Skylight",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 105,
+        "buildTimeHuman": "1 hour 45 minutes"
+    },
+    "Centerpiece-DiningRoom": {
+        "id": 17,
+        "roomId": 5,
+        "name": "Centerpiece",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 126.5625,
+        "buildTimeHuman": "2 hours 6 minutes 33 seconds"
+    },
+    "Shower-Bathroom": {
+        "id": 76,
+        "roomId": 2,
+        "name": "Shower",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 148.4375,
+        "buildTimeHuman": "2 hours 28 minutes 26 seconds"
+    },
+    "Television-Den": {
+        "id": 85,
+        "roomId": 4,
+        "name": "Television",
+        "roomName": "Den",
+        "buildTimeMinutes": 148.4375,
+        "buildTimeHuman": "2 hours 28 minutes 26 seconds"
+    },
+    "Mirror-Bedroom": {
+        "id": 55,
+        "roomId": 1,
+        "name": "Mirror",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Mirror-Bathroom": {
+        "id": 55,
+        "roomId": 2,
+        "name": "Mirror",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "CoffeeTable-Den": {
+        "id": 31,
+        "roomId": 4,
+        "name": "Coffee Table",
+        "roomName": "Den",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Credenza-DiningRoom": {
+        "id": 77,
+        "roomId": 5,
+        "name": "Credenza",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Portrait-Hallway": {
+        "id": 63,
+        "roomId": 9,
+        "name": "Portrait",
+        "roomName": "Hallway",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Rug-Porch": {
+        "id": 70,
+        "roomId": 12,
+        "name": "Rug",
+        "roomName": "Porch",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Orchestra-Ballroom": {
+        "id": 58,
+        "roomId": 14,
+        "name": "Orchestra",
+        "roomName": "Ballroom",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Portrait-Office": {
+        "id": 63,
+        "roomId": 18,
+        "name": "Portrait",
+        "roomName": "Office",
+        "buildTimeMinutes": 148.75,
+        "buildTimeHuman": "2 hours 28 minutes 45 seconds"
+    },
+    "Chandelier-Bedroom": {
+        "id": 18,
+        "roomId": 1,
+        "name": "Chandelier",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "BathroomSink-Bathroom": {
+        "id": 9,
+        "roomId": 2,
+        "name": "Bathroom Sink",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "Toilet-Bathroom": {
+        "id": 87,
+        "roomId": 2,
+        "name": "Toilet",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "MarbleCounterTops-Kitchen": {
+        "id": 23,
+        "roomId": 3,
+        "name": "Marble Counter Tops",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "Crockpot-Kitchen": {
+        "id": 24,
+        "roomId": 3,
+        "name": "Crockpot",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "StainlessSteelOven-Kitchen": {
+        "id": 54,
+        "roomId": 3,
+        "name": "Stainless Steel Oven",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "SurroundSoundSystem-Den": {
+        "id": 79,
+        "roomId": 4,
+        "name": "Surround Sound System",
+        "roomName": "Den",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "WoodenStorageBin-Attic": {
+        "id": 81,
+        "roomId": 7,
+        "name": "Wooden Storage Bin",
+        "roomName": "Attic",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "CarpetedFloor-Attic": {
+        "id": 99,
+        "roomId": 7,
+        "name": "Carpeted Floor",
+        "roomName": "Attic",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "WoodenTable-Sunroom": {
+        "id": 83,
+        "roomId": 10,
+        "name": "Wooden Table",
+        "roomName": "Sunroom",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "BirdFeeder-Courtyard": {
+        "id": 11,
+        "roomId": 13,
+        "name": "Bird Feeder",
+        "roomName": "Courtyard",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "WoodenTable-Ballroom": {
+        "id": 83,
+        "roomId": 14,
+        "name": "Wooden Table",
+        "roomName": "Ballroom",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "PoolTable-GameRoom": {
+        "id": 68,
+        "roomId": 17,
+        "name": "Pool Table",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "RecordingEquipment-MusicRoom": {
+        "id": 73,
+        "roomId": 20,
+        "name": "Recording Equipment",
+        "roomName": "Music Room",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "Harvestron9028-Workshop": {
+        "id": 42,
+        "roomId": 22,
+        "name": "Harvestron 9028",
+        "roomName": "Workshop",
+        "buildTimeMinutes": 150,
+        "buildTimeHuman": "2 hours 30 minutes"
+    },
+    "CaliforniaKingBed-Bedroom": {
+        "id": 10,
+        "roomId": 1,
+        "name": "California King Bed",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "CurtainedWindow-Bedroom": {
+        "id": 98,
+        "roomId": 1,
+        "name": "Curtained Window",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "CurtainedWindow-DiningRoom": {
+        "id": 98,
+        "roomId": 5,
+        "name": "Curtained Window",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "CurtainedWindow-LivingRoom": {
+        "id": 98,
+        "roomId": 8,
+        "name": "Curtained Window",
+        "roomName": "Living Room",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "CurtainedWindow-Sunroom": {
+        "id": 98,
+        "roomId": 10,
+        "name": "Curtained Window",
+        "roomName": "Sunroom",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "CurtainedWindow-Office": {
+        "id": 98,
+        "roomId": 18,
+        "name": "Curtained Window",
+        "roomName": "Office",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "FoldingTable-LaundryRoom": {
+        "id": 37,
+        "roomId": 19,
+        "name": "Folding Table",
+        "roomName": "Laundry Room",
+        "buildTimeMinutes": 150.3125,
+        "buildTimeHuman": "2 hours 30 minutes 18 seconds"
+    },
+    "DentalFloss-Bathroom": {
+        "id": 35,
+        "roomId": 2,
+        "name": "Dental Floss",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 150.9375,
+        "buildTimeHuman": "2 hours 30 minutes 56 seconds"
+    },
+    "Toothbrush-Bathroom": {
+        "id": 88,
+        "roomId": 2,
+        "name": "Toothbrush",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 150.9375,
+        "buildTimeHuman": "2 hours 30 minutes 56 seconds"
+    },
+    "LoveSeat-Den": {
+        "id": 53,
+        "roomId": 4,
+        "name": "Love Seat",
+        "roomName": "Den",
+        "buildTimeMinutes": 150.9375,
+        "buildTimeHuman": "2 hours 30 minutes 56 seconds"
+    },
+    "HardwoodFlooring-DiningRoom": {
+        "id": 52,
+        "roomId": 5,
+        "name": "Hardwood Flooring",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 150.9375,
+        "buildTimeHuman": "2 hours 30 minutes 56 seconds"
+    },
+    "CeilingLight-Cellar": {
+        "id": 16,
+        "roomId": 15,
+        "name": "Ceiling Light",
+        "roomName": "Cellar",
+        "buildTimeMinutes": 151.25,
+        "buildTimeHuman": "2 hours 31 minutes 15 seconds"
+    },
+    "GreenhouseHeater-Greenhouse": {
+        "id": 43,
+        "roomId": 16,
+        "name": "Greenhouse Heater",
+        "roomName": "Greenhouse",
+        "buildTimeMinutes": 151.25,
+        "buildTimeHuman": "2 hours 31 minutes 15 seconds"
+    },
+    "PingPongTable-GameRoom": {
+        "id": 66,
+        "roomId": 17,
+        "name": "Ping Pong Table",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 151.25,
+        "buildTimeHuman": "2 hours 31 minutes 15 seconds"
+    },
+    "DoubleSink-Kitchen": {
+        "id": 50,
+        "roomId": 3,
+        "name": "Double Sink",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 151.875,
+        "buildTimeHuman": "2 hours 31 minutes 52 seconds"
+    },
+    "Pans-Kitchen": {
+        "id": 62,
+        "roomId": 3,
+        "name": "Pans",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 151.875,
+        "buildTimeHuman": "2 hours 31 minutes 52 seconds"
+    },
+    "Pots-Kitchen": {
+        "id": 71,
+        "roomId": 3,
+        "name": "Pots",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 151.875,
+        "buildTimeHuman": "2 hours 31 minutes 52 seconds"
+    },
+    "Pool-Courtyard": {
+        "id": 97,
+        "roomId": 13,
+        "name": "Pool",
+        "roomName": "Courtyard",
+        "buildTimeMinutes": 151.875,
+        "buildTimeHuman": "2 hours 31 minutes 52 seconds"
+    },
+    "Multiple-AlarmClock-Bedroom": {
+        "id": 1,
+        "roomId": 1,
+        "name": "Multiple-Alarm Clock",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 153.125,
+        "buildTimeHuman": "2 hours 33 minutes 7 seconds"
+    },
+    "FloorLamp-LivingRoom": {
+        "id": 34,
+        "roomId": 8,
+        "name": "Floor Lamp",
+        "roomName": "Living Room",
+        "buildTimeMinutes": 153.125,
+        "buildTimeHuman": "2 hours 33 minutes 7 seconds"
+    },
+    "Mirror-Hallway": {
+        "id": 55,
+        "roomId": 9,
+        "name": "Mirror",
+        "roomName": "Hallway",
+        "buildTimeMinutes": 153.125,
+        "buildTimeHuman": "2 hours 33 minutes 7 seconds"
+    },
+    "FeltCardTable-GameRoom": {
+        "id": 15,
+        "roomId": 17,
+        "name": "Felt Card Table",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 153.125,
+        "buildTimeHuman": "2 hours 33 minutes 7 seconds"
+    },
+    "PinballMachine-GameRoom": {
+        "id": 65,
+        "roomId": 17,
+        "name": "Pinball Machine",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 153.125,
+        "buildTimeHuman": "2 hours 33 minutes 7 seconds"
+    },
+    "Keyboard-Office": {
+        "id": 49,
+        "roomId": 18,
+        "name": "Keyboard",
+        "roomName": "Office",
+        "buildTimeMinutes": 153.125,
+        "buildTimeHuman": "2 hours 33 minutes 7 seconds"
+    },
+    "CarpetedFloor-Bedroom": {
+        "id": 99,
+        "roomId": 1,
+        "name": "Carpeted Floor",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 153.75,
+        "buildTimeHuman": "2 hours 33 minutes 45 seconds"
+    },
+    "CarpetedFloor-LivingRoom": {
+        "id": 99,
+        "roomId": 8,
+        "name": "Carpeted Floor",
+        "roomName": "Living Room",
+        "buildTimeMinutes": 153.75,
+        "buildTimeHuman": "2 hours 33 minutes 45 seconds"
+    },
+    "CarpetedFloor-Hallway": {
+        "id": 99,
+        "roomId": 9,
+        "name": "Carpeted Floor",
+        "roomName": "Hallway",
+        "buildTimeMinutes": 153.75,
+        "buildTimeHuman": "2 hours 33 minutes 45 seconds"
+    },
+    "CannedGoods-Cellar": {
+        "id": 14,
+        "roomId": 15,
+        "name": "Canned Goods",
+        "roomName": "Cellar",
+        "buildTimeMinutes": 153.75,
+        "buildTimeHuman": "2 hours 33 minutes 45 seconds"
+    },
+    "DartBoard-GameRoom": {
+        "id": 25,
+        "roomId": 17,
+        "name": "Dart Board",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 153.75,
+        "buildTimeHuman": "2 hours 33 minutes 45 seconds"
+    },
+    "BlackRefrigerator-Kitchen": {
+        "id": 39,
+        "roomId": 3,
+        "name": "Black Refrigerator",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 154.0625,
+        "buildTimeHuman": "2 hours 34 minutes 3 seconds"
+    },
+    "SprungFloor-Ballroom": {
+        "id": 80,
+        "roomId": 14,
+        "name": "Sprung Floor",
+        "roomName": "Ballroom",
+        "buildTimeMinutes": 154.0625,
+        "buildTimeHuman": "2 hours 34 minutes 3 seconds"
+    },
+    "CaliforniaCloset-Bedroom": {
+        "id": 95,
+        "roomId": 1,
+        "name": "California Closet",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "Jacuzzi-Bathroom": {
+        "id": 8,
+        "roomId": 2,
+        "name": "Jacuzzi",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "CurtainedWindow-Bathroom": {
+        "id": 98,
+        "roomId": 2,
+        "name": "Curtained Window",
+        "roomName": "Bathroom",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "BlackCabinets-Kitchen": {
+        "id": 13,
+        "roomId": 3,
+        "name": "Black Cabinets",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "BlackStove-Kitchen": {
+        "id": 82,
+        "roomId": 3,
+        "name": "Black Stove",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "CurtainedWindow-Kitchen": {
+        "id": 98,
+        "roomId": 3,
+        "name": "Curtained Window",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "CurtainedWindow-Den": {
+        "id": 98,
+        "roomId": 4,
+        "name": "Curtained Window",
+        "roomName": "Den",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "CinderblockWalls-Basement": {
+        "id": 19,
+        "roomId": 6,
+        "name": "Cinderblock Walls",
+        "roomName": "Basement",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "Awning-Balcony": {
+        "id": 4,
+        "roomId": 11,
+        "name": "Awning",
+        "roomName": "Balcony",
+        "buildTimeMinutes": 154.375,
+        "buildTimeHuman": "2 hours 34 minutes 22 seconds"
+    },
+    "Chandelier-DiningRoom": {
+        "id": 18,
+        "roomId": 5,
+        "name": "Chandelier",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 154.6875,
+        "buildTimeHuman": "2 hours 34 minutes 41 seconds"
+    },
+    "FakePlasticTrees-Courtyard": {
+        "id": 92,
+        "roomId": 13,
+        "name": "Fake Plastic Trees",
+        "roomName": "Courtyard",
+        "buildTimeMinutes": 154.6875,
+        "buildTimeHuman": "2 hours 34 minutes 41 seconds"
+    },
+    "Screens-Greenhouse": {
+        "id": 40,
+        "roomId": 16,
+        "name": "Screens",
+        "roomName": "Greenhouse",
+        "buildTimeMinutes": 154.6875,
+        "buildTimeHuman": "2 hours 34 minutes 41 seconds"
+    },
+    "BlackDishwasher-Kitchen": {
+        "id": 29,
+        "roomId": 3,
+        "name": "Black Dishwasher",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 155,
+        "buildTimeHuman": "2 hours 35 minutes"
+    },
+    "Laminator-Office": {
+        "id": 102,
+        "roomId": 18,
+        "name": "Laminator",
+        "roomName": "Office",
+        "buildTimeMinutes": 155,
+        "buildTimeHuman": "2 hours 35 minutes"
+    },
+    "Boombox-Bedroom": {
+        "id": 12,
+        "roomId": 1,
+        "name": "Boombox",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 156.25,
+        "buildTimeHuman": "2 hours 36 minutes 15 seconds"
+    },
+    "BarStools-Kitchen": {
+        "id": 7,
+        "roomId": 3,
+        "name": "Bar Stools",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 156.25,
+        "buildTimeHuman": "2 hours 36 minutes 15 seconds"
+    },
+    "SinkSprayer-Kitchen": {
+        "id": 51,
+        "roomId": 3,
+        "name": "Sink Sprayer",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "WoodenTable-DiningRoom": {
+        "id": 83,
+        "roomId": 5,
+        "name": "Wooden Table",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "TrapDoor-Basement": {
+        "id": 90,
+        "roomId": 6,
+        "name": "Trap Door",
+        "roomName": "Basement",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "CharcoalGrill-Porch": {
+        "id": 41,
+        "roomId": 12,
+        "name": "Charcoal Grill",
+        "roomName": "Porch",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "Railing-Porch": {
+        "id": 69,
+        "roomId": 12,
+        "name": "Railing",
+        "roomName": "Porch",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "TrapDoor-Cellar": {
+        "id": 90,
+        "roomId": 15,
+        "name": "Trap Door",
+        "roomName": "Cellar",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "WashingMachine-LaundryRoom": {
+        "id": 96,
+        "roomId": 19,
+        "name": "Washing Machine",
+        "roomName": "Laundry Room",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "Amplifier-MusicRoom": {
+        "id": 2,
+        "roomId": 20,
+        "name": "Amplifier",
+        "roomName": "Music Room",
+        "buildTimeMinutes": 157.5,
+        "buildTimeHuman": "2 hours 37 minutes 30 seconds"
+    },
+    "Bar-Kitchen": {
+        "id": 6,
+        "roomId": 3,
+        "name": "Bar",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 158.125,
+        "buildTimeHuman": "2 hours 38 minutes 7 seconds"
+    },
+    "OvenMitts-Kitchen": {
+        "id": 59,
+        "roomId": 3,
+        "name": "Oven Mitts",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 158.125,
+        "buildTimeHuman": "2 hours 38 minutes 7 seconds"
+    },
+    "Flowers-Porch": {
+        "id": 36,
+        "roomId": 12,
+        "name": "Flowers",
+        "roomName": "Porch",
+        "buildTimeMinutes": 158.125,
+        "buildTimeHuman": "2 hours 38 minutes 7 seconds"
+    },
+    "TikiTorches-Porch": {
+        "id": 86,
+        "roomId": 12,
+        "name": "Tiki Torches",
+        "roomName": "Porch",
+        "buildTimeMinutes": 158.4375,
+        "buildTimeHuman": "2 hours 38 minutes 26 seconds"
+    },
+    "Fireplace-Den": {
+        "id": 33,
+        "roomId": 4,
+        "name": "Fireplace",
+        "roomName": "Den",
+        "buildTimeMinutes": 160,
+        "buildTimeHuman": "2 hours 40 minutes"
+    },
+    "OverheadLight-Basement": {
+        "id": 60,
+        "roomId": 6,
+        "name": "Overhead Light",
+        "roomName": "Basement",
+        "buildTimeMinutes": 160,
+        "buildTimeHuman": "2 hours 40 minutes"
+    },
+    "FakePlants-Balcony": {
+        "id": 32,
+        "roomId": 11,
+        "name": "Fake Plants",
+        "roomName": "Balcony",
+        "buildTimeMinutes": 161.25,
+        "buildTimeHuman": "2 hours 41 minutes 15 seconds"
+    },
+    "Painting-Ballroom": {
+        "id": 61,
+        "roomId": 14,
+        "name": "Painting",
+        "roomName": "Ballroom",
+        "buildTimeMinutes": 161.875,
+        "buildTimeHuman": "2 hours 41 minutes 52 seconds"
+    },
+    "Mouse-Office": {
+        "id": 56,
+        "roomId": 18,
+        "name": "Mouse",
+        "roomName": "Office",
+        "buildTimeMinutes": 164.0625,
+        "buildTimeHuman": "2 hours 44 minutes 3 seconds"
+    },
+    "Tapestry-Ballroom": {
+        "id": 84,
+        "roomId": 14,
+        "name": "Tapestry",
+        "roomName": "Ballroom",
+        "buildTimeMinutes": 164.6875,
+        "buildTimeHuman": "2 hours 44 minutes 41 seconds"
+    },
+    "Puzzles-GameRoom": {
+        "id": 72,
+        "roomId": 17,
+        "name": "Puzzles",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 165,
+        "buildTimeHuman": "2 hours 45 minutes"
+    },
+    "PaddedWalls-MusicRoom": {
+        "id": 94,
+        "roomId": 20,
+        "name": "Padded Walls",
+        "roomName": "Music Room",
+        "buildTimeMinutes": 166.5625,
+        "buildTimeHuman": "2 hours 46 minutes 33 seconds"
+    },
+    "FoosballTable-GameRoom": {
+        "id": 38,
+        "roomId": 17,
+        "name": "Foosball Table",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 168.75,
+        "buildTimeHuman": "2 hours 48 minutes 45 seconds"
+    },
+    "Dryer-LaundryRoom": {
+        "id": 20,
+        "roomId": 19,
+        "name": "Dryer",
+        "roomName": "Laundry Room",
+        "buildTimeMinutes": 168.75,
+        "buildTimeHuman": "2 hours 48 minutes 45 seconds"
+    },
+    "Shelves-Cellar": {
+        "id": 75,
+        "roomId": 15,
+        "name": "Shelves",
+        "roomName": "Cellar",
+        "buildTimeMinutes": 170.625,
+        "buildTimeHuman": "2 hours 50 minutes 37 seconds"
+    },
+    "AirHockeyTable-GameRoom": {
+        "id": 0,
+        "roomId": 17,
+        "name": "Air Hockey Table",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 170.625,
+        "buildTimeHuman": "2 hours 50 minutes 37 seconds"
+    },
+    "Pond-Courtyard": {
+        "id": 67,
+        "roomId": 13,
+        "name": "Pond",
+        "roomName": "Courtyard",
+        "buildTimeMinutes": 175.3125,
+        "buildTimeHuman": "2 hours 55 minutes 18 seconds"
+    },
+    "Hedges-Garden": {
+        "id": 44,
+        "roomId": 21,
+        "name": "Hedges",
+        "roomName": "Garden",
+        "buildTimeMinutes": 176.25,
+        "buildTimeHuman": "2 hours 56 minutes 15 seconds"
+    },
+    "Desk-Office": {
+        "id": 26,
+        "roomId": 18,
+        "name": "Desk",
+        "roomName": "Office",
+        "buildTimeMinutes": 222.8125,
+        "buildTimeHuman": "3 hours 42 minutes 48 seconds"
+    },
+    "CraftingTable-Workshop": {
+        "id": 100,
+        "roomId": 22,
+        "name": "Crafting Table",
+        "roomName": "Workshop",
+        "buildTimeMinutes": 295.3125,
+        "buildTimeHuman": "4 hours 55 minutes 18 seconds"
+    },
+    "CarvingBench-Workshop": {
+        "id": 101,
+        "roomId": 22,
+        "name": "Carving Bench",
+        "roomName": "Workshop",
+        "buildTimeMinutes": 295.3125,
+        "buildTimeHuman": "4 hours 55 minutes 18 seconds"
+    },
+    "NorwegianWoodWalls-Attic": {
+        "id": 93,
+        "roomId": 7,
+        "name": "Norwegian Wood Walls",
+        "roomName": "Attic",
+        "buildTimeMinutes": 308.125,
+        "buildTimeHuman": "5 hours 8 minutes 7 seconds"
+    },
+    "DiningChairs-DiningRoom": {
+        "id": 28,
+        "roomId": 5,
+        "name": "Dining Chairs",
+        "roomName": "Dining Room",
+        "buildTimeMinutes": 430.625,
+        "buildTimeHuman": "7 hours 10 minutes 37 seconds"
+    },
+    "DeskChair-Office": {
+        "id": 27,
+        "roomId": 18,
+        "name": "Desk Chair",
+        "roomName": "Office",
+        "buildTimeMinutes": 546.5625,
+        "buildTimeHuman": "9 hours 6 minutes 33 seconds"
+    },
+    "Safe-Bedroom": {
+        "id": 64,
+        "roomId": 1,
+        "name": "Safe",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 579.375,
+        "buildTimeHuman": "9 hours 39 minutes 22 seconds"
+    },
+    "Futon-Den": {
+        "id": 22,
+        "roomId": 4,
+        "name": "Futon",
+        "roomName": "Den",
+        "buildTimeMinutes": 579.375,
+        "buildTimeHuman": "9 hours 39 minutes 22 seconds"
+    },
+    "Futon-LivingRoom": {
+        "id": 22,
+        "roomId": 8,
+        "name": "Futon",
+        "roomName": "Living Room",
+        "buildTimeMinutes": 579.375,
+        "buildTimeHuman": "9 hours 39 minutes 22 seconds"
+    },
+    "HarvestronPatch-Workshop": {
+        "id": 106,
+        "roomId": 22,
+        "name": "Harvestron Patch",
+        "roomName": "Workshop",
+        "buildTimeMinutes": 643.75,
+        "buildTimeHuman": "10 hours 43 minutes 45 seconds"
+    },
+    "Dreamcatcher-Bedroom": {
+        "id": 30,
+        "roomId": 1,
+        "name": "Dreamcatcher",
+        "roomName": "Bedroom",
+        "buildTimeMinutes": 778.4375,
+        "buildTimeHuman": "12 hours 58 minutes 26 seconds"
+    },
+    "Computer-Office": {
+        "id": 21,
+        "roomId": 18,
+        "name": "Computer",
+        "roomName": "Office",
+        "buildTimeMinutes": 907.5,
+        "buildTimeHuman": "15 hours 7 minutes 30 seconds"
+    },
+    "PlushSittingChairs-LivingRoom": {
+        "id": 57,
+        "roomId": 8,
+        "name": "Plush Sitting Chairs",
+        "roomName": "Living Room",
+        "buildTimeMinutes": 1051.875,
+        "buildTimeHuman": "17 hours 31 minutes 52 seconds"
+    },
+    "PlushSittingChairs-Sunroom": {
+        "id": 57,
+        "roomId": 10,
+        "name": "Plush Sitting Chairs",
+        "roomName": "Sunroom",
+        "buildTimeMinutes": 1051.875,
+        "buildTimeHuman": "17 hours 31 minutes 52 seconds"
+    },
+    "PlushSittingChairs-Ballroom": {
+        "id": 57,
+        "roomId": 14,
+        "name": "Plush Sitting Chairs",
+        "roomName": "Ballroom",
+        "buildTimeMinutes": 1051.875,
+        "buildTimeHuman": "17 hours 31 minutes 52 seconds"
+    },
+    "BoardGame-GameRoom": {
+        "id": 89,
+        "roomId": 17,
+        "name": "Board Game",
+        "roomName": "Game Room",
+        "buildTimeMinutes": 1130,
+        "buildTimeHuman": "18 hours 50 minutes"
+    },
+    "ElectricalToolkit-Workshop": {
+        "id": 103,
+        "roomId": 22,
+        "name": "Electrical Toolkit",
+        "roomName": "Workshop",
+        "buildTimeMinutes": 1195.3125,
+        "buildTimeHuman": "19 hours 55 minutes 18 seconds"
+    },
+    "Island-Kitchen": {
+        "id": 47,
+        "roomId": 3,
+        "name": "Island",
+        "roomName": "Kitchen",
+        "buildTimeMinutes": 1551.25,
+        "buildTimeHuman": "1 day 1 hour 51 minutes 15 seconds"
+    },
+    "Railing-Balcony": {
+        "id": 5,
+        "roomId": 11,
+        "name": "Railing",
+        "roomName": "Balcony",
+        "buildTimeMinutes": 2000.3125,
+        "buildTimeHuman": "1 day 9 hours 20 minutes 18 seconds"
+    },
+    "IvoryTower-Courtyard": {
+        "id": 48,
+        "roomId": 13,
+        "name": "Ivory Tower",
+        "roomName": "Courtyard",
+        "buildTimeMinutes": 2054.6875,
+        "buildTimeHuman": "1 day 10 hours 14 minutes 41 seconds"
+    }
+}
