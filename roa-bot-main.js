@@ -17,8 +17,6 @@
 (async () => {
     'use strict';
 
-    let buildings;
-
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
     const delay = ms => new Promise(r => setTimeout(r, ms));
@@ -94,7 +92,8 @@
     class RoaBot {
         settings;
         timers;
-        jumpCounter
+        buildings;
+        jumpCounter;
 
         constructor(settings) {
             this.settings = settings;
@@ -233,8 +232,13 @@
         start() {
             log('Starting RoA Bot with settings:');
             console.log(this.settings);
-            buildings = JSON.parse(GM_getResourceText('BuildingsData'));
-            log(`Loaded buildings data entries: ${Object.entries(buildings).length}`);
+            try {
+                this.buildings = JSON.parse(GM_getResourceText('BuildingsData'));
+                log(`Loaded buildings data, entries: ${Object.entries(buildings).length}`);
+            } catch (e) {
+                log('Unable to load buildings data');
+                console.error(e);
+            }
             if (this.settings.channel.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
             if (this.settings.refresh.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
             if (this.settings.questCompletion.enabled) this.timers.questCompletion = this.setupQuestCompletion();
