@@ -164,6 +164,7 @@
             const upgradeItemSelector = () => $('#houseRoomItemUpgradeLevel');
             const notificationSelector = () => $('div#house_notification');
 
+            log('Setting up auto housing');
             return setInterval(async () => {
                 await safeClick(houseSelector());
                 if (notificationSelector().textContent !== houseReadyString) {
@@ -190,6 +191,7 @@
             const toolUpgradeSelector = () => $('#harvestLevelResult > a.openToolUpgrade');
             const maxSelector = () => $$('a.toolUpgradeMax');
 
+            log('Setting up auto tool upgrade');
             return setInterval(async () => {
                 if (isVisible(toolUpgradeSelector())) {
                     await safeClick(toolUpgradeSelector());
@@ -203,6 +205,7 @@
         }
 
         attachKeyBinds() {
+            log('Setting up custom key binds');
             window.addEventListener('keydown', e => {
                 const key = e.code;
                 switch (key) {
@@ -234,7 +237,7 @@
             console.log(this.settings);
             try {
                 this.buildings = JSON.parse(GM_getResourceText('BuildingsData'));
-                log(`Loaded buildings data, entries: ${Object.entries(buildings).length}`);
+                log(`Loaded buildings data, entries: ${Object.entries(this.buildings).length}`);
             } catch (e) {
                 log('Unable to load buildings data');
                 console.error(e);
