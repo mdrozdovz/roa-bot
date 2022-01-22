@@ -12,7 +12,7 @@ const charSettings = {
 };
 
 if (module) {
-    module.exports = {charSettings};
+    module.exports = { charSettings };
 }
 
 if (window) {
