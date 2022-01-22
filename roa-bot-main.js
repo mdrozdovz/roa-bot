@@ -97,6 +97,15 @@
         return null;
     }
 
+    const resourceTypes = [Resource.CraftingMaterials, Resource.GemFragments, Resource.Food, Resource.Wood, Resource.Iron, Resource.Stone];
+    const collectResources = () => {
+        const res = {};
+        for (const type of resourceTypes) {
+            res[type] = $(`td#${type}`).text;
+        }
+        return res;
+    }
+
     const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
     const confirmButtonSelector = () => $('#confirmButtons > a.button.green');
     const cancelButtonSelector = () => $('#confirmButtons > a.button.red');
@@ -247,6 +256,19 @@
                 await safeClick(closeModalSelector());
                 log('Refilled crafting queue');
             }, this.settings.crafting.checkIntervalSeconds * 1000);
+        }
+
+        wireToMain() {
+            const mainChar = _.first(findCharsByRole(Role.Main));
+            if (!_.contains(this.settings.roles, Role.Alt)) return;
+
+            if (_.contains(this.settings.roles, Role.Fisherman)) {
+
+            }
+        }
+
+        resInfo() {
+            log('Resources:', collectResources());
         }
 
         attachKeyBinds() {

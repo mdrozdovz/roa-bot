@@ -11,6 +11,15 @@ class Role {
     static Alt = 'alt';
 }
 
+class Resource {
+    static CraftingMaterials = 'crafting_materials';
+    static GemFragments = 'gem_fragments';
+    static Food = 'food';
+    static Wood = 'wood';
+    static Iron = 'iron';
+    static Stone = 'stone';
+}
+
 const charSettings = {
     Arius: {
         roles: [Role.Battler, Role.Main],
@@ -96,7 +105,7 @@ const charSettings = {
             item: 'CraftingTable-Workshop',
         },
         crafting: {
-            enabled: true,
+            enabled: false,
             checkIntervalSeconds: 600
         }
     }
