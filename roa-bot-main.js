@@ -8,7 +8,7 @@
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
-// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=1
 // @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
@@ -18,7 +18,6 @@
 
 (async () => {
     'use strict';
-
 
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -47,9 +46,11 @@
         }
     };
 
-    const log = (msg, data = null) => {
+    const log = (msg, data) => {
         const now = new Date();
-        console.log(`[${now.toDateString()} ${now.toTimeString().split(' ')[0]}][RoA Bot]: ${msg}`, data);
+        const prefix = `[${now.toDateString()} ${now.toTimeString().split(' ')[0]}][RoA Bot]:`;
+        if (data) console.log(`${prefix} ${msg}`, data);
+        else console.log(`${prefix} ${msg}`);
     }
 
     log('char settings', charSettings);
@@ -100,7 +101,9 @@
         buildings;
         jumpCounter;
 
-        constructor(settings) {
+        constructor(defaultSettings, charSettings) {
+            const settings = {};
+            _.extend(settings, defaultSettings, charSettings);
             this.settings = settings;
             this.timers = {};
             this.jumpCounter = 0;
@@ -164,6 +167,8 @@
             const newRoomSelector = () => $('input#houseBuildRoom');
             const shortestNewItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoom');
             const shortestExistingItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoomItem');
+            const completeListSelector = () => $('#allHouseUpgrades');
+            const specificItemSelector = id => $(`a.houseViewRoomItem[data-itemtype=${id}]`);
             const buildItemSelector = () => $('#houseBuildRoomItem');
             const upgradeTierSelector = () => $('#houseRoomItemUpgradeTier');
             const upgradeItemSelector = () => $('#houseRoomItemUpgradeLevel');
@@ -178,7 +183,14 @@
                 }
 
                 log('Housing ready');
-                if (isVisible(newRoomSelector())) {
+
+                const itemName = this.settings.housing.item;
+                const item = this.buildings[itemName];
+                if (item) {
+                    log(`Building predefined item: ${item.name} (${item.roomName})`);
+                    await safeClick(completeListSelector());
+                    await safeClick(specificItemSelector(item.id));
+                } else if (isVisible(newRoomSelector())) {
                     log('Building new room');
                     await safeClick(newRoomSelector());
                 } else { // build shortest
@@ -187,7 +199,6 @@
                     await safeClick(firstActionable(buildItemSelector(), upgradeTierSelector(), upgradeItemSelector()));
                 }
 
-                log('Building new item');
                 safeClick(closeModalSelector());
             }, this.settings.housing.checkIntervalSeconds * 1000);
         }
@@ -207,6 +218,26 @@
                     log(`Upgraded tool: ${type && type.attributes['data-type'].value}`);
                 }
             }, this.settings.toolUpgrade.checkIntervalSeconds * 1000);
+        }
+
+        setupCrafting() {
+            const tableSelector = () => $('a.craftingTableLink');
+            const cancelAllUnstartedSelector = () => $('#craft_cancel_unstarted');
+            const maxLevelSelector = () => $('#craftingItemLevelMax');
+            const fillQueueSelector = () => $('#craftingJobFillQueue');
+            const addToEndQueueSelector = () => $('div.craftingJobStartQueue');
+            const startJobSelector = () => $('div#craftingJobStart');
+
+            return setInterval(async () => {
+                await safeClick(tableSelector());
+                await safeClick(cancelAllUnstartedSelector());
+                await safeClick(maxLevelSelector());
+                await safeClick(fillQueueSelector());
+                // await safeClick(addToEndQueueSelector());
+                await safeClick(startJobSelector());
+                await safeClick(closeModalSelector());
+                log('Refilled crafting queue');
+            }, this.settings.crafting.checkIntervalSeconds * 1000);
         }
 
         attachKeyBinds() {
@@ -238,8 +269,7 @@
         }
 
         start() {
-            log('Starting RoA Bot with settings:');
-            console.log(this.settings);
+            log('Starting RoA Bot with settings:', this.settings);
             try {
                 this.buildings = JSON.parse(GM_getResourceText('buildingsData'));
                 log(`Loaded buildings data, entries: ${Object.entries(this.buildings).length}`);
@@ -248,11 +278,12 @@
                 console.error(e);
             }
 
-            if (this.settings.channel.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
-            if (this.settings.refresh.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
-            if (this.settings.questCompletion.enabled) this.timers.questCompletion = this.setupQuestCompletion();
-            if (this.settings.housing.enabled) this.timers.housing = this.setupHousing();
-            if (this.settings.toolUpgrade.enabled) this.timers.toolUpgrade = this.setupToolUpgrade();
+            if (this.settings.channel?.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
+            if (this.settings.refresh?.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
+            if (this.settings.questCompletion?.enabled) this.timers.questCompletion = this.setupQuestCompletion();
+            if (this.settings.housing?.enabled) this.timers.housing = this.setupHousing();
+            if (this.settings.toolUpgrade?.enabled) this.timers.toolUpgrade = this.setupToolUpgrade();
+            if (this.settings.crafting?.enabled) this.timers.crafting = this.setupCrafting();
             this.attachKeyBinds();
             this.miscellaneous();
 
@@ -273,7 +304,7 @@
         }
     }
 
-    unsafeWindow.roaBot = new RoaBot(defaultSettings);
+    unsafeWindow.roaBot = new RoaBot(defaultSettings, charSettings.Craftarius);
     unsafeWindow.addEventListener('beforeunload', () => window.roaBot.stop());
     unsafeWindow.roaBot.start();
 })();
