@@ -8,7 +8,7 @@
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
-// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=3
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=5
 // @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
@@ -52,8 +52,6 @@
         if (data) console.log(`${prefix} ${msg}`, data);
         else console.log(`${prefix} ${msg}`);
     }
-
-    log('char settings', charSettings);
 
     const safeClick = async button => {
         button && button.click && button.click();
@@ -101,7 +99,7 @@
     const collectResources = () => {
         const res = {};
         for (const type of resourceTypes) {
-            res[type] = $(`td#${type}`).text;
+            res[type] = parseInt($(`td#${type}`).textContent.replaceAll(',', ''));
         }
         return res;
     }
@@ -186,7 +184,7 @@
             const shortestNewItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoom');
             const shortestExistingItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoomItem');
             const completeListSelector = () => $('#allHouseUpgrades');
-            const specificItemSelector = id => $(`a.houseViewRoomItem[data-itemtype=${id}]`);
+            const specificItemSelector = id => $(`a.houseViewRoomItem[data-itemtype="${id}"]`);
             const buildItemSelector = () => $('#houseBuildRoomItem');
             const upgradeTierSelector = () => $('#houseRoomItemUpgradeTier');
             const upgradeItemSelector = () => $('#houseRoomItemUpgradeLevel');
@@ -268,7 +266,13 @@
         }
 
         resInfo() {
-            log('Resources:', collectResources());
+            const rss = collectResources();
+            log('Resources:', rss);
+            if (this.settings.resource) {
+                const avg = _.avg(rss[Resource.Food], rss[Resource.Wood], rss[Resource.Iron], rss[Resource.Stone]);
+                const primaryRss = rss[this.settings.resource];
+                log('', {primaryRss, avg});
+            }
         }
 
         attachKeyBinds() {

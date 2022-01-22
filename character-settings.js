@@ -53,51 +53,67 @@ const charSettings = {
     },
     Fisharius: {
         roles: [Role.Fisherman, Role.Alt],
+        resource: Resource.Food,
     },
     Foodarius: {
         roles: [Role.Fisherman, Role.Alt],
+        resource: Resource.Food,
     },
     Fruitarius: {
         roles: [Role.Fisherman, Role.Alt],
+        resource: Resource.Food,
     },
     Wheatarius: {
         roles: [Role.Fisherman, Role.Alt],
+        resource: Resource.Food,
     },
     Wooarius: {
         roles: [Role.Woodcutter, Role.Alt],
+        resource: Resource.Wood,
     },
     Woodarius: {
         roles: [Role.Woodcutter, Role.Alt],
+        resource: Resource.Wood,
     },
     Choparius: {
         roles: [Role.Woodcutter, Role.Alt],
+        resource: Resource.Wood,
     },
     Lumberarius: {
         roles: [Role.Woodcutter, Role.Alt],
+        resource: Resource.Wood,
     },
     Minarius: {
         roles: [Role.Miner, Role.Alt],
+        resource: Resource.Iron,
     },
     Metalarius: {
         roles: [Role.Miner, Role.Alt],
+        resource: Resource.Iron,
     },
     Gemarius: {
         roles: [Role.Miner, Role.Alt],
+        resource: Resource.Iron,
     },
     Minerarius: {
         roles: [Role.Miner, Role.Alt],
+        resource: Resource.Iron,
     },
     Stonarius: {
         roles: [Role.Stonecutter, Role.Alt],
+        resource: Resource.Stone,
     },
     Quararius: {
         roles: [Role.Stonecutter, Role.Alt],
+        resource: Resource.Stone,
     },
     Rockarius: {
         roles: [Role.Stonecutter, Role.Alt],
+        resource: Resource.Stone,
     },
     Bouldarius: {
         roles: [Role.Stonecutter, Role.Alt],
+        resource: Resource.Stone,
     },
     Craftarius: {
         roles: [Role.Crafter, Role.Alt],
