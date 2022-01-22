@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name            RoA-Bot
 // @namespace       http://tampermonkey.net/
-// @version         0.1.3
+// @version         0.1.4
 // @description     try to take over the world!
 // @author          mdrozdovz
 // @match           https://*.avabur.com/game*
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
-// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=1
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=3
 // @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
@@ -91,6 +91,12 @@
         return null;
     };
 
+    const getCharName = () => {
+        const nameSelector = () => $('td#my_title > a.profileLink');
+        if (nameSelector()) return nameSelector().text;
+        return null;
+    }
+
     const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
     const confirmButtonSelector = () => $('#confirmButtons > a.button.green');
     const cancelButtonSelector = () => $('#confirmButtons > a.button.red');
@@ -103,7 +109,10 @@
 
         constructor(defaultSettings, charSettings) {
             const settings = {};
+            const housingSettings = {};
+            _.extend(housingSettings, defaultSettings.housing, charSettings.housing);
             _.extend(settings, defaultSettings, charSettings);
+            settings.housing = housingSettings;
             this.settings = settings;
             this.timers = {};
             this.jumpCounter = 0;
@@ -233,8 +242,8 @@
                 await safeClick(cancelAllUnstartedSelector());
                 await safeClick(maxLevelSelector());
                 await safeClick(fillQueueSelector());
-                // await safeClick(addToEndQueueSelector());
-                await safeClick(startJobSelector());
+                await safeClick(addToEndQueueSelector());
+                // await safeClick(startJobSelector());
                 await safeClick(closeModalSelector());
                 log('Refilled crafting queue');
             }, this.settings.crafting.checkIntervalSeconds * 1000);
@@ -243,10 +252,9 @@
         attachKeyBinds() {
             log('Setting up custom key binds');
             window.addEventListener('keydown', e => {
-                const key = e.code;
+                const key = e.key;
                 switch (key) {
                     case 'Enter':
-                    case 'NumpadEnter':
                         safeClick(confirmButtonSelector());
                         break;
                     case 'Escape':
@@ -304,7 +312,7 @@
         }
     }
 
-    unsafeWindow.roaBot = new RoaBot(defaultSettings, charSettings.Craftarius);
-    unsafeWindow.addEventListener('beforeunload', () => window.roaBot.stop());
+    unsafeWindow.roaBot = new RoaBot(defaultSettings, charSettings[getCharName()]);
+    unsafeWindow.addEventListener('beforeunload', () => unsafeWindow.roaBot.stop());
     unsafeWindow.roaBot.start();
 })();
