@@ -7,7 +7,9 @@
 // @match           https://*.avabur.com/game*
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @resource        BuildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
+// @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js
+// @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
 // @grant           GM_info
@@ -16,6 +18,7 @@
 
 (async () => {
     'use strict';
+
 
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -44,10 +47,12 @@
         }
     };
 
-    const log = msg => {
+    const log = (msg, data = null) => {
         const now = new Date();
-        console.log(`[${now.toDateString()} ${now.toTimeString().split(' ')[0]}][RoA Bot]: ${msg}`);
+        console.log(`[${now.toDateString()} ${now.toTimeString().split(' ')[0]}][RoA Bot]: ${msg}`, data);
     }
+
+    log('char settings', charSettings);
 
     const safeClick = async button => {
         button && button.click && button.click();
@@ -236,12 +241,13 @@
             log('Starting RoA Bot with settings:');
             console.log(this.settings);
             try {
-                this.buildings = JSON.parse(GM_getResourceText('BuildingsData'));
+                this.buildings = JSON.parse(GM_getResourceText('buildingsData'));
                 log(`Loaded buildings data, entries: ${Object.entries(this.buildings).length}`);
             } catch (e) {
                 log('Unable to load buildings data');
                 console.error(e);
             }
+
             if (this.settings.channel.switchToMain) this.timers.switchToMain = this.switchToMainChannel();
             if (this.settings.refresh.enabled) this.timers.autoRefresh = this.setupAutoRefresh();
             if (this.settings.questCompletion.enabled) this.timers.questCompletion = this.setupQuestCompletion();
@@ -267,7 +273,7 @@
         }
     }
 
-    window.roaBot = new RoaBot(defaultSettings);
-    window.addEventListener('beforeunload', () => window.roaBot.stop());
-    window.roaBot.start();
+    unsafeWindow.roaBot = new RoaBot(defaultSettings);
+    unsafeWindow.addEventListener('beforeunload', () => window.roaBot.stop());
+    unsafeWindow.roaBot.start();
 })();
