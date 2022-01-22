@@ -11,7 +11,9 @@ const charSettings = {
     }
 };
 
-module.exports = { charSettings };
+if (module) {
+    module.exports = {charSettings};
+}
 
 if (window) {
     (window => window.charSettings = charSettings)(window);
