@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name            RoA-Bot
 // @namespace       http://tampermonkey.net/
-// @version         0.1.4
+// @version         0.2.0
 // @description     try to take over the world!
 // @author          mdrozdovz
 // @match           https://*.avabur.com/game*
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
-// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=5
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=6
 // @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
@@ -220,6 +220,7 @@
                     log(`Building predefined item: ${item.name} (${item.roomName})`);
                     await safeClick(completeListSelector());
                     await safeClick(specificItemSelector(item.id));
+                    await safeClick(firstActionable(buildItemSelector(), upgradeTierSelector(), upgradeItemSelector()));
                 } else if (isVisible(newRoomSelector())) {
                     log('Building new room');
                     await safeClick(newRoomSelector());
@@ -287,22 +288,29 @@
         async wireToAlts() {
             if (!this.settings.roles.includes(Role.Main)) return;
 
-            const alts = findCharsByRole(Role.Alt);
-            const resInfo = this.resInfo().rss;
-            const min = _.min(Object.values(_.omit(resInfo, Resource.CraftingMaterials, Resource.GemFragments)));
-            const toWire = Math.floor(min * 0.5 / alts.length);
+            this.stop();
+            try {
+                const alts = findCharsByRole(Role.Alt);
+                const resInfo = this.resInfo().rss;
+                const min = _.min(Object.values(_.omit(resInfo, Resource.CraftingMaterials, Resource.GemFragments)));
+                const toWire = Math.floor(min * 0.5 / alts.length);
 
-            for (const alt of alts) {
-                let cmd = `/wire ${alt}`;
-                for (const type of [Resource.Food, Resource.Wood, Resource.Iron, Resource.Stone]) {
-                    cmd += ` ${toWire} ${type},`;
+                for (const alt of alts) {
+                    let cmd = `/wire ${alt}`;
+                    for (const type of [Resource.Food, Resource.Wood, Resource.Iron, Resource.Stone]) {
+                        cmd += ` ${toWire} ${type},`;
+                    }
+                    if (charSettings[alt].roles.includes(Role.Crafter)) {
+                        cmd += ` ${resInfo[Resource.CraftingMaterials]} ${Resource.CraftingMaterials}`;
+                    }
+                    cmd = cmd.replace(/,$/g, '');
+                    await executeChatCommand(cmd);
+                    await delay(3000);
                 }
-                if (charSettings[alt].roles.includes(Role.Crafter)) {
-                    cmd += ` ${resInfo[Resource.CraftingMaterials]} ${Resource.CraftingMaterials}`;
-                }
-                cmd = cmd.replace(/,$/g, '');
-                await executeChatCommand(cmd);
-                await delay(1000);
+            } catch(e) {
+                console.error('Error wiring to alts', e);
+            } finally {
+                this.start();
             }
         }
 
