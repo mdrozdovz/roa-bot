@@ -293,7 +293,7 @@
                 const alts = findCharsByRole(Role.Alt);
                 const resInfo = this.resInfo().rss;
                 const min = _.min(Object.values(_.omit(resInfo, Resource.CraftingMaterials, Resource.GemFragments)));
-                const toWire = Math.floor(min * 0.5 / alts.length);
+                const toWire = Math.floor(min * this.settings.resourceWire.altsFactor / alts.length);
 
                 for (const alt of alts) {
                     let cmd = `/wire ${alt}`;
