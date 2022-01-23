@@ -43,6 +43,12 @@
         toolUpgrade: {
             enabled: true,
             checkIntervalSeconds: 60,
+        },
+        resourceWire: {
+            enabled: true,
+            checkIntervalSeconds: 3600,
+            exceedFactor: 1.5,
+            altsFactor: 0.5,
         }
     };
 
@@ -99,7 +105,7 @@
     const collectResources = () => {
         const res = {};
         for (const type of resourceTypes) {
-            res[type] = parseInt($(`td#${type}`).textContent.replaceAll(',', ''));
+            res[type] = parseInt($(`td#${type}`).attributes['data-personal'].value.replaceAll(',', ''));
         }
         return res;
     }
@@ -107,6 +113,14 @@
     const closeModalSelector = () => $('#modalWrapper > div > span.closeModal');
     const confirmButtonSelector = () => $('#confirmButtons > a.button.green');
     const cancelButtonSelector = () => $('#confirmButtons > a.button.red');
+    const chatInputSelector = () => $('div#chatMessage');
+    const sendButtonSelector = () => $('input#chatSendMessage');
+
+    const executeChatCommand = async cmd => {
+        log('Executing command:', cmd);
+        chatInputSelector().textContent = cmd;
+        await safeClick(sendButtonSelector());
+    };
 
     class RoaBot {
         settings;
@@ -256,22 +270,56 @@
             }, this.settings.crafting.checkIntervalSeconds * 1000);
         }
 
-        wireToMain() {
+        async wireToMain() {
             const mainChar = _.first(findCharsByRole(Role.Main));
-            if (!_.contains(this.settings.roles, Role.Alt)) return;
+            if (!this.settings.roles.includes(Role.Alt)) return;
 
-            if (_.contains(this.settings.roles, Role.Fisherman)) {
-
+            const resData = this.resInfo(false);
+            if (resData.factor > this.settings.resourceWire.exceedFactor) {
+                const toWire = Math.floor(resData.primaryRss - resData.avg);
+                const mats = resData.rss[Resource.CraftingMaterials];
+                // TODO make universal, filterable
+                const cmd = `/wire ${mainChar} ${toWire} ${resData.type}, ${mats} ${Resource.CraftingMaterials}`;
+                await executeChatCommand(cmd);
             }
+        }
+
+        async wireToAlts() {
+            if (!this.settings.roles.includes(Role.Main)) return;
+
+            const alts = findCharsByRole(Role.Alt);
+            const resInfo = this.resInfo().rss;
+            const min = _.min(Object.values(_.omit(resInfo, Resource.CraftingMaterials, Resource.GemFragments)));
+            const toWire = Math.floor(min * 0.5 / alts.length);
+
+            for (const alt of alts) {
+                let cmd = `/wire ${alt}`;
+                for (const type of [Resource.Food, Resource.Wood, Resource.Iron, Resource.Stone]) {
+                    cmd += ` ${toWire} ${type},`;
+                }
+                if (charSettings[alt].roles.includes(Role.Crafter)) {
+                    cmd += ` ${resInfo[Resource.CraftingMaterials]} ${Resource.CraftingMaterials}`;
+                }
+                cmd = cmd.replace(/,$/g, '');
+                await executeChatCommand(cmd);
+                await delay(1000);
+            }
+        }
+
+        setupResourceWire() {
+            return setInterval(this.wireToMain.bind(this), this.settings.resourceWire.checkIntervalSeconds * 1000);
         }
 
         resInfo() {
             const rss = collectResources();
-            log('Resources:', rss);
-            if (this.settings.resource) {
-                const avg = _.avg(rss[Resource.Food], rss[Resource.Wood], rss[Resource.Iron], rss[Resource.Stone]);
-                const primaryRss = rss[this.settings.resource];
-                log('', {primaryRss, avg});
+            const type = this.settings.resource;
+            if (type) {
+                const avg = _.sum(Object.values(_.omit(rss, Resource.CraftingMaterials, Resource.GemFragments))) / 4;
+                const primaryRss = rss[type];
+                const factor = primaryRss / avg;
+                return {type, primaryRss, avg, factor, rss};
+            } else {
+                return {type, primaryRss: 0, avg: 0, factor: 1, rss};
             }
         }
 
@@ -318,6 +366,7 @@
             if (this.settings.housing?.enabled) this.timers.housing = this.setupHousing();
             if (this.settings.toolUpgrade?.enabled) this.timers.toolUpgrade = this.setupToolUpgrade();
             if (this.settings.crafting?.enabled) this.timers.crafting = this.setupCrafting();
+            if (this.settings.resourceWire?.enabled) this.timers.resourceWire = this.setupResourceWire();
             this.attachKeyBinds();
             this.miscellaneous();
 
