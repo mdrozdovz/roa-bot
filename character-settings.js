@@ -122,7 +122,7 @@ const charSettings = {
         },
         crafting: {
             enabled: false,
-            checkIntervalSeconds: 600
+            checkIntervalSeconds: 700
         }
     }
 };

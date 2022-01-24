@@ -8,7 +8,7 @@
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
-// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=6
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=7
 // @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version
@@ -33,7 +33,7 @@
         },
         questCompletion: {
             enabled: true,
-            jumpForwardTimes: 0.2,
+            jumpForwardTimes: 1,
             checkIntervalSeconds: 20,
         },
         housing: {
@@ -125,6 +125,7 @@
     class RoaBot {
         settings;
         timers;
+        eventListeners;
         buildings;
         jumpCounter;
 
@@ -136,6 +137,7 @@
             settings.housing = housingSettings;
             this.settings = settings;
             this.timers = {};
+            this.eventListeners = {};
             this.jumpCounter = 0;
         }
 
@@ -159,30 +161,23 @@
             const jumpFwdButtonSelector = () => $('#roaJumpNextMob');
             const beginQuestButtonsSelector = type => $(`input.questRequest[data-questtype=${type}]`);
             const resetStatsSelector = () => $('#clearBattleStats');
+            const winRateSelector = () => $('td#gainsRatio');
 
             log('Setting up auto quest completion');
             return setInterval(async () => {
                 const {elem, type} = getCurrentQuestType();
                 if (!infoLinkSelector(elem)) return;
 
-                log('Found completed quest');
-                log(`Current quest: ${type}`);
+                log(`Found completed quest. Current quest: ${type}`);
 
                 await safeClick(completeButtonSelector(type));
                 if (type === 'kill') {
-                    const jumpForwardTimes = this.settings.questCompletion.jumpForwardTimes;
-                    if (jumpForwardTimes < 1) {
-                        const revCounter = Math.round(1 / jumpForwardTimes);
-                        if (++this.jumpCounter % revCounter === 0) {
-                            log('jumping mobs');
-                            await safeClick(jumpFwdButtonSelector());
-                        }
-                    } else {
-                        for (let i = 0; i < jumpForwardTimes; i++) {
-                            log('jumping mobs');
-                            await safeClick(jumpFwdButtonSelector());
-                        }
-                    }
+                     if (winRateSelector()?.attributes['data-value']?.value === '100%') {
+                         log(`Jumping mobs ${this.settings.jumpForwardTimes} times`);
+                         for (let i = 0; i < this.settings.jumpForwardTimes; i++) {
+                             await safeClick(jumpFwdButtonSelector());
+                         }
+                     }
                 }
                 await safeClick(beginQuestButtonsSelector(type));
                 await safeClick(closeModalSelector());
@@ -224,7 +219,7 @@
                 } else if (isVisible(newRoomSelector())) {
                     log('Building new room');
                     await safeClick(newRoomSelector());
-                } else { // build shortest
+                } else {
                     log('Building shortest item');
                     await safeClick(shortestNewItemSelector() || shortestExistingItemSelector());
                     await safeClick(firstActionable(buildItemSelector(), upgradeTierSelector(), upgradeItemSelector()));
@@ -261,11 +256,9 @@
 
             return setInterval(async () => {
                 await safeClick(tableSelector());
-                await safeClick(cancelAllUnstartedSelector());
                 await safeClick(maxLevelSelector());
                 await safeClick(fillQueueSelector());
                 await safeClick(addToEndQueueSelector());
-                // await safeClick(startJobSelector());
                 await safeClick(closeModalSelector());
                 log('Refilled crafting queue');
             }, this.settings.crafting.checkIntervalSeconds * 1000);
@@ -288,29 +281,22 @@
         async wireToAlts() {
             if (!this.settings.roles.includes(Role.Main)) return;
 
-            this.stop();
-            try {
-                const alts = findCharsByRole(Role.Alt);
-                const resInfo = this.resInfo().rss;
-                const min = _.min(Object.values(_.omit(resInfo, Resource.CraftingMaterials, Resource.GemFragments)));
-                const toWire = Math.floor(min * this.settings.resourceWire.altsFactor / alts.length);
+            const alts = findCharsByRole(Role.Alt);
+            const resInfo = this.resInfo().rss;
+            const min = _.min(Object.values(_.omit(resInfo, Resource.CraftingMaterials, Resource.GemFragments)));
+            const toWire = Math.floor(min * this.settings.resourceWire.altsFactor / alts.length);
 
-                for (const alt of alts) {
-                    let cmd = `/wire ${alt}`;
-                    for (const type of [Resource.Food, Resource.Wood, Resource.Iron, Resource.Stone]) {
-                        cmd += ` ${toWire} ${type},`;
-                    }
-                    if (charSettings[alt].roles.includes(Role.Crafter)) {
-                        cmd += ` ${resInfo[Resource.CraftingMaterials]} ${Resource.CraftingMaterials}`;
-                    }
-                    cmd = cmd.replace(/,$/g, '');
-                    await executeChatCommand(cmd);
-                    await delay(3000);
+            for (const alt of alts) {
+                let cmd = `/wire ${alt}`;
+                for (const type of [Resource.Food, Resource.Wood, Resource.Iron, Resource.Stone]) {
+                    cmd += ` ${toWire} ${type},`;
                 }
-            } catch(e) {
-                console.error('Error wiring to alts', e);
-            } finally {
-                this.start();
+                if (charSettings[alt].roles.includes(Role.Crafter)) {
+                    cmd += ` ${resInfo[Resource.CraftingMaterials]} ${Resource.CraftingMaterials}`;
+                }
+                cmd = cmd.replace(/,$/g, '');
+                await executeChatCommand(cmd);
+                await delay(5000);
             }
         }
 
@@ -333,7 +319,7 @@
 
         attachKeyBinds() {
             log('Setting up custom key binds');
-            window.addEventListener('keydown', e => {
+            const keyDown = e => {
                 const key = e.key;
                 switch (key) {
                     case 'Enter':
@@ -343,7 +329,10 @@
                         safeClick(cancelButtonSelector());
                         break;
                 }
-            });
+            };
+            window.addEventListener('keydown', keyDown);
+            if (!this.eventListeners.window) this.eventListeners.window = {};
+            this.eventListeners.window.keydown = keyDown;
         }
 
         miscellaneous() {
@@ -385,8 +374,13 @@
             log('Stopping RoA Bot');
             for (const [key, val] of Object.entries(this.timers)) {
                 clearInterval(val);
-                delete this.timers[key];
             }
+            this.timers = {};
+
+            for (const [key, val] of Object.entries(this.eventListeners.window)) {
+                window.removeEventListener(key, val);
+            }
+            this.eventListeners.window = {};
         }
 
         restart() {
