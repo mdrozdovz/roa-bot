@@ -173,12 +173,13 @@
 
                 await safeClick(completeButtonSelector(type));
                 if (type === 'kill') {
-                     if (winRateSelector()?.textContent === '100.00%') {
-                         log(`Jumping mobs ${this.settings.jumpForwardTimes} times`);
-                         for (let i = 0; i < this.settings.jumpForwardTimes; i++) {
-                             await safeClick(jumpFwdButtonSelector());
-                         }
-                     }
+                    if (winRateSelector()?.textContent === '100.00%') {
+                        const { jumpForwardTimes } = this.settings.questCompletion;
+                        log(`Jumping mobs ${jumpForwardTimes} times`);
+                        for (let i = 0; i < jumpForwardTimes; i++) {
+                            await safeClick(jumpFwdButtonSelector());
+                        }
+                    }
                 }
                 await safeClick(beginQuestButtonsSelector(type));
                 await safeClick(closeModalSelector());
@@ -195,6 +196,7 @@
             const shortestExistingItemSelector = () => $('#houseQuickBuildList > li > a.houseViewRoomItem');
             const completeListSelector = () => $('#allHouseUpgrades');
             const specificItemSelector = id => $(`a.houseViewRoomItem[data-itemtype="${id}"]`);
+            const specificRoomSelector = id => $(`a.houseViewRoom[data-type="${id}"]`);
             const buildItemSelector = () => $('#houseBuildRoomItem');
             const upgradeTierSelector = () => $('#houseRoomItemUpgradeTier');
             const upgradeItemSelector = () => $('#houseRoomItemUpgradeLevel');
@@ -213,9 +215,9 @@
                 const itemName = this.settings.housing.item;
                 const item = this.buildings[itemName];
                 if (item) {
-                    log(`Building predefined item: ${item.name} (${item.roomName})`);
+                    log(`Building predefined item: ${item.name}[${item.id}] (${item.roomName}[${item.roomId}])`);
                     await safeClick(completeListSelector());
-                    await safeClick(specificItemSelector(item.id));
+                    await safeClick(firstActionable(specificItemSelector(item.id), specificRoomSelector(item.roomId)));
                     await safeClick(firstActionable(buildItemSelector(), upgradeTierSelector(), upgradeItemSelector()));
                 } else if (isVisible(newRoomSelector())) {
                     log('Building new room');
