@@ -39,6 +39,7 @@
         housing: {
             enabled: true,
             checkIntervalSeconds: 600,
+            item: 'BasicToolkit-Workshop'
         },
         toolUpgrade: {
             enabled: true,

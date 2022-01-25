@@ -975,6 +975,14 @@
         "buildTimeMinutes": 1130,
         "buildTimeHuman": "18 hours 50 minutes"
     },
+    "BasicToolkit-Workshop": {
+        "id": 103,
+        "roomId": 22,
+        "name": "Basic Toolkit",
+        "roomName": "Workshop",
+        "buildTimeMinutes": 1195.3125,
+        "buildTimeHuman": "19 hours 55 minutes 18 seconds"
+    },
     "ElectricalToolkit-Workshop": {
         "id": 103,
         "roomId": 22,
