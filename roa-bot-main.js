@@ -173,7 +173,7 @@
 
                 await safeClick(completeButtonSelector(type));
                 if (type === 'kill') {
-                     if (winRateSelector()?.attributes['data-value']?.value === '100%') {
+                     if (winRateSelector()?.textContent === '100.00%') {
                          log(`Jumping mobs ${this.settings.jumpForwardTimes} times`);
                          for (let i = 0; i < this.settings.jumpForwardTimes; i++) {
                              await safeClick(jumpFwdButtonSelector());
