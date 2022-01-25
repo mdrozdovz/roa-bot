@@ -39,7 +39,7 @@
         housing: {
             enabled: true,
             checkIntervalSeconds: 600,
-            item: 'BasicToolkit-Workshop'
+            item: 'ElectricalToolkit-Workshop'
         },
         toolUpgrade: {
             enabled: true,
