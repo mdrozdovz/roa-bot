@@ -8,7 +8,7 @@
 // @match           http://*.avabur.com/game*
 // @icon            data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require         https://cdn.jsdelivr.net/gh/lodash/lodash@4.17.4/dist/lodash.min.js
-// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=7
+// @require         https://github.com/mdrozdovz/roa-bot/raw/master/character-settings.js?v=8
 // @resource        buildingsData https://github.com/mdrozdovz/roa-bot/raw/master/house-buildings.json
 // @downloadURL     https://github.com/mdrozdovz/roa-bot/raw/master/roa-bot-main.js
 // @updateURL       https://github.com/mdrozdovz/roa-bot/raw/master/version

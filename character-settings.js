@@ -118,7 +118,7 @@ const charSettings = {
     Craftarius: {
         roles: [Role.Crafter, Role.Alt],
         housing: {
-            item: 'CraftingTable-Workshop',
+            //item: 'CraftingTable-Workshop',
         },
         crafting: {
             enabled: false,
